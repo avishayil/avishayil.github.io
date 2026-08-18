@@ -23,8 +23,7 @@ export const SOCIAL = {
 
 /** Conversion actions. */
 export const CONTACT = {
-  // TODO: replace with the real Cal.com / Calendly scheduling link.
-  booking: 'https://cal.com/avishaybar',
+  booking: 'https://cal.com/avishay-bar-3sybvq/30min',
   email: 'mailto:hello@avishay.co.il',
 } as const;
 

@@ -9,15 +9,26 @@ import { SITE, NAV_LINKS, CONTACT } from '../lib/site';
       <span class="nav__name">{SITE.name}</span>
     </a>
 
-    <nav class="nav__links" aria-label="Primary">
-      {NAV_LINKS.map((link) => (
-        <a href={link.href}>{link.label}</a>
-      ))}
-    </nav>
+    <button
+      class="nav__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="nav-menu"
+      aria-label="Open menu"
+    >
+      <span class="nav__toggle-bars" aria-hidden="true"></span>
+    </button>
 
-    <a class="nav__cta btn btn--primary" href={CONTACT.booking} target="_blank" rel="noopener">
-      Book a call
-    </a>
+    <div class="nav__menu" id="nav-menu">
+      <nav class="nav__links" aria-label="Primary">
+        {NAV_LINKS.map((link) => (
+          <a href={link.href}>{link.label}</a>
+        ))}
+      </nav>
+      <a class="nav__cta btn btn--primary" href={CONTACT.booking} target="_blank" rel="noopener">
+        Book a call
+      </a>
+    </div>
   </div>
 </header>
 
@@ -33,7 +44,8 @@ import { SITE, NAV_LINKS, CONTACT } from '../lib/site';
   .nav__inner {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    justify-content: space-between;
+    gap: 1rem;
     min-height: 68px;
   }
   .nav__brand {
@@ -43,40 +55,171 @@ import { SITE, NAV_LINKS, CONTACT } from '../lib/site';
     font-family: var(--font-display);
     font-weight: 600;
     letter-spacing: -0.01em;
+    flex: 0 1 auto;
+    min-width: 0;
   }
   .nav__mark {
     display: block;
     width: 32px;
     height: 32px;
     object-fit: contain;
+    flex: 0 0 auto;
   }
   .nav__name {
     font-size: 0.98rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Mobile disclosure toggle (hamburger) */
+  .nav__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--hairline-strong);
+    border-radius: var(--radius);
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+  }
+  .nav__toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .nav__toggle-bars,
+  .nav__toggle-bars::before,
+  .nav__toggle-bars::after {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform 0.2s var(--ease), opacity 0.2s var(--ease);
+  }
+  .nav__toggle-bars {
+    position: relative;
+  }
+  .nav__toggle-bars::before,
+  .nav__toggle-bars::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+  .nav__toggle-bars::before {
+    top: -6px;
+  }
+  .nav__toggle-bars::after {
+    top: 6px;
+  }
+  .nav__toggle[aria-expanded='true'] .nav__toggle-bars {
+    background: transparent;
+  }
+  .nav__toggle[aria-expanded='true'] .nav__toggle-bars::before {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .nav__toggle[aria-expanded='true'] .nav__toggle-bars::after {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* Mobile: dropdown panel, hidden until expanded */
+  .nav__menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.75rem var(--gutter) 1.25rem;
+    background: color-mix(in srgb, var(--bg) 97%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .nav__toggle[aria-expanded='true'] ~ .nav__menu {
+    display: flex;
   }
   .nav__links {
-    display: none;
-    gap: 1.5rem;
-    margin-left: auto;
-    font-size: 0.95rem;
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
     color: var(--text-muted);
   }
   .nav__links a {
+    display: block;
+    padding: 0.7rem 0.25rem;
     transition: color 0.2s var(--ease);
   }
   .nav__links a:hover {
     color: var(--text);
   }
   .nav__cta {
-    margin-left: auto;
-    padding: 0.55rem 1.1rem;
+    justify-content: center;
+    width: 100%;
+    margin-top: 0.5rem;
     font-size: 0.95rem;
   }
+
+  /* Desktop: inline nav, no toggle */
   @media (min-width: 900px) {
-    .nav__links {
+    .nav__toggle {
+      display: none;
+    }
+    .nav__menu {
       display: flex;
+      position: static;
+      flex-direction: row;
+      align-items: center;
+      gap: 1.5rem;
+      margin-left: auto;
+      padding: 0;
+      background: none;
+      backdrop-filter: none;
+      border: none;
+    }
+    .nav__links {
+      flex-direction: row;
+      gap: 1.5rem;
+      font-size: 0.95rem;
+    }
+    .nav__links a {
+      padding: 0;
     }
     .nav__cta {
-      margin-left: 0;
+      width: auto;
+      margin-top: 0;
+      padding: 0.55rem 1.1rem;
     }
   }
 </style>
+
+<script>
+  const toggle = document.querySelector('.nav__toggle');
+  const menu = document.getElementById('nav-menu');
+  if (toggle && menu) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    };
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      setOpen(!isOpen);
+    });
+    // Close after choosing a destination.
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => setOpen(false));
+    });
+    // Close on Escape and return focus to the toggle.
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        (toggle as HTMLElement).focus();
+      }
+    });
+  }
+</script>
