@@ -5,7 +5,7 @@ import { SITE, NAV_LINKS, CONTACT } from '../lib/site';
 <header class="nav">
   <div class="wrap nav__inner">
     <a class="nav__brand" href="/" aria-label={`${SITE.name}, home`}>
-      <span class="nav__mark" aria-hidden="true">AB</span>
+      <img class="nav__mark" src="/logo-mark.png" alt="" aria-hidden="true" width="32" height="32" />
       <span class="nav__name">{SITE.name}</span>
     </a>
 
@@ -45,15 +45,10 @@ import { SITE, NAV_LINKS, CONTACT } from '../lib/site';
     letter-spacing: -0.01em;
   }
   .nav__mark {
-    display: grid;
-    place-items: center;
-    width: 30px;
-    height: 30px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: var(--accent-contrast);
-    background: linear-gradient(135deg, var(--accent), var(--accent-2));
-    border-radius: var(--radius);
+    display: block;
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
   }
   .nav__name {
     font-size: 0.98rem;

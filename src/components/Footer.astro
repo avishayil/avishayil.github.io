@@ -13,7 +13,10 @@ const links = [
 <footer class="footer">
   <div class="wrap footer__inner">
     <div>
-      <div class="footer__name">{SITE.name}</div>
+      <div class="footer__name">
+        <img class="footer__mark" src="/logo-mark.png" alt="" aria-hidden="true" width="28" height="28" />
+        <span>{SITE.name}</span>
+      </div>
       <p class="footer__tag mono">{SITE.tagline}</p>
     </div>
     <nav class="footer__links mono" aria-label="Social and resources">
@@ -41,8 +44,17 @@ const links = [
     align-items: flex-start;
   }
   .footer__name {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
     font-weight: 600;
     font-size: var(--step-1);
+  }
+  .footer__mark {
+    display: block;
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
   }
   .footer__tag {
     color: var(--text-muted);
