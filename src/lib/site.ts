@@ -17,7 +17,6 @@ export const SOCIAL = {
   medium: 'https://medium.com/@avishayil',
   // TODO: confirm X/Twitter handle.
   x: 'https://x.com/avishayil',
-  rss: 'https://medium.com/feed/@avishayil',
   // TODO: confirm LinkedIn newsletter URL.
   newsletter: 'https://www.linkedin.com/in/avishaybar/recent-activity/all/',
 } as const;
