@@ -1,0 +1,16 @@
+{
+  "name": "avishay-co-il",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.6.1",
+    "fast-xml-parser": "^4.5.1"
+  }
+}

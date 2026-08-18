@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import RepoCard from '../components/RepoCard.astro';
+import { getAllRepos } from '../lib/github';
+import { SITE, SOCIAL } from '../lib/site';
+
+const repos = await getAllRepos();
+---
+
+<Base
+  title={`Open Source · ${SITE.name}`}
+  description="Open-source security tooling, AWS/CDK projects, and libraries by Avishay Bar."
+>
+  <section class="section section--first">
+    <div class="wrap">
+      <SectionLabel index="01" label="Open Source" />
+      <h1 class="page-title">Open Source</h1>
+      <p class="page-lead">
+        Security tooling and vulnerable-by-design labs, pulled live from
+        <a href={SOCIAL.github} target="_blank" rel="noopener">GitHub</a>.
+      </p>
+      <div class="grid grid--cards">
+        {repos.map((repo) => <RepoCard repo={repo} />)}
+      </div>
+      <a class="more mono" href="/#open-source">← Back home</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .section--first {
+    border-top: none;
+    padding-top: clamp(3rem, 2rem + 6vw, 6rem);
+  }
+  .page-title {
+    font-size: var(--step-4);
+    line-height: 1;
+  }
+  .page-lead {
+    color: var(--text-muted);
+    max-width: 48ch;
+    margin: 1.25rem 0 3rem;
+    font-size: var(--step-1);
+  }
+  .page-lead a {
+    color: var(--accent);
+  }
+  .grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  }
+  .more {
+    display: inline-block;
+    margin-top: 3rem;
+    color: var(--text-muted);
+  }
+  .more:hover {
+    color: var(--accent);
+  }
+</style>

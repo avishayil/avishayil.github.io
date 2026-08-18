@@ -1,0 +1,72 @@
+---
+import type { Post } from '../lib/posts';
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+
+const displayDate = post.date
+  ? new Date(post.date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+    })
+  : '';
+---
+
+<a class="article" href={post.url} target="_blank" rel="noopener">
+  <div class="article__meta mono">
+    <span class="article__source" data-source={post.source}>{post.source}</span>
+    <time datetime={post.date}>{displayDate}</time>
+  </div>
+  <h3 class="article__title">{post.title}</h3>
+  <span class="article__more mono" aria-hidden="true">read →</span>
+</a>
+
+<style>
+  .article {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.5rem 1.5rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--hairline);
+    transition: border-color 0.2s var(--ease);
+  }
+  .article:hover {
+    border-color: var(--accent);
+  }
+  .article__meta {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-faint);
+  }
+  .article__source {
+    color: var(--accent-contrast);
+    background: var(--accent);
+    padding: 0.1rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+  .article__source[data-source='LinkedIn'] {
+    background: var(--accent-2);
+  }
+  .article__title {
+    font-size: var(--step-1);
+    font-weight: 500;
+    transition: color 0.2s var(--ease);
+  }
+  .article:hover .article__title {
+    color: var(--accent);
+  }
+  .article__more {
+    color: var(--text-muted);
+    opacity: 0;
+    transition: opacity 0.2s var(--ease);
+  }
+  .article:hover .article__more {
+    opacity: 1;
+  }
+</style>

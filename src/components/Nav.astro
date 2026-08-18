@@ -1,0 +1,87 @@
+---
+import { SITE, NAV_LINKS, CONTACT } from '../lib/site';
+---
+
+<header class="nav">
+  <div class="wrap nav__inner">
+    <a class="nav__brand" href="/" aria-label={`${SITE.name}, home`}>
+      <span class="nav__mark" aria-hidden="true">AB</span>
+      <span class="nav__name">{SITE.name}</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      {NAV_LINKS.map((link) => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+    </nav>
+
+    <a class="nav__cta btn btn--primary" href={CONTACT.booking} target="_blank" rel="noopener">
+      Book a call
+    </a>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 68px;
+  }
+  .nav__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .nav__mark {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--accent-contrast);
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    border-radius: var(--radius);
+  }
+  .nav__name {
+    font-size: 0.98rem;
+  }
+  .nav__links {
+    display: none;
+    gap: 1.5rem;
+    margin-left: auto;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+  .nav__links a {
+    transition: color 0.2s var(--ease);
+  }
+  .nav__links a:hover {
+    color: var(--text);
+  }
+  .nav__cta {
+    margin-left: auto;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.95rem;
+  }
+  @media (min-width: 900px) {
+    .nav__links {
+      display: flex;
+    }
+    .nav__cta {
+      margin-left: 0;
+    }
+  }
+</style>

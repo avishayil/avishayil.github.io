@@ -1,0 +1,98 @@
+---
+import { CONTACT } from '../lib/site';
+
+interface Props {
+  title: string;
+  summary: string;
+  points: string[];
+  featured?: boolean;
+}
+const { title, summary, points, featured = false } = Astro.props;
+---
+
+<article class:list={['service', { 'service--featured': featured }]}>
+  {featured && <span class="service__badge">Most popular</span>}
+  <h3 class="service__title">{title}</h3>
+  <p class="service__summary">{summary}</p>
+  <ul class="service__points">
+    {points.map((p) => (
+      <li>
+        <span class="service__check" aria-hidden="true">✓</span>
+        {p}
+      </li>
+    ))}
+  </ul>
+  <a class="service__cta" href={CONTACT.booking} target="_blank" rel="noopener">
+    Book a call <span aria-hidden="true">→</span>
+  </a>
+</article>
+
+<style>
+  .service {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding: 1.9rem;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-lg);
+    height: 100%;
+    transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  .service:hover {
+    border-color: var(--hairline-strong);
+    transform: translateY(-2px);
+  }
+  .service--featured {
+    border-color: var(--accent);
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    box-shadow: 0 20px 60px -35px var(--accent-glow);
+  }
+  .service__badge {
+    position: absolute;
+    top: -0.75rem;
+    left: 1.9rem;
+    background: var(--accent);
+    color: var(--accent-contrast);
+    padding: 0.25rem 0.7rem;
+    border-radius: var(--radius);
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+  .service__title {
+    font-size: var(--step-1);
+    font-weight: 600;
+  }
+  .service__summary {
+    color: var(--text-muted);
+  }
+  .service__points {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding-top: 0.5rem;
+    font-size: var(--step-0);
+  }
+  .service__points li {
+    display: flex;
+    gap: 0.6rem;
+    color: var(--text);
+  }
+  .service__check {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .service__cta {
+    margin-top: auto;
+    padding-top: 1rem;
+    color: var(--accent);
+    font-weight: 500;
+    transition: gap 0.2s var(--ease);
+  }
+  .service__cta:hover {
+    color: var(--accent-2);
+  }
+</style>

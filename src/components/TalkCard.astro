@@ -1,0 +1,76 @@
+---
+interface Props {
+  title: string;
+  event: string;
+  date: Date;
+  videoUrl?: string;
+  slidesUrl?: string;
+  summary: string;
+}
+const { title, event, date, videoUrl, slidesUrl, summary } = Astro.props;
+const displayDate = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+});
+---
+
+<article class="talk">
+  <div class="talk__meta mono">
+    <span class="talk__event">{event}</span>
+    <time datetime={date.toISOString()}>{displayDate}</time>
+  </div>
+  <h3 class="talk__title">{title}</h3>
+  <p class="talk__summary">{summary}</p>
+  <div class="talk__links mono">
+    {videoUrl ? (
+      <a href={videoUrl} target="_blank" rel="noopener">▶ Watch</a>
+    ) : (
+      <span class="talk__soon">▶ Recording soon</span>
+    )}
+    {slidesUrl && (
+      <a href={slidesUrl} target="_blank" rel="noopener">◱ Slides</a>
+    )}
+  </div>
+</article>
+
+<style>
+  .talk {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.75rem;
+    background: var(--bg-elevated);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-lg);
+    height: 100%;
+  }
+  .talk__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--text-faint);
+  }
+  .talk__event {
+    color: var(--accent-dim);
+  }
+  .talk__title {
+    font-size: var(--step-1);
+    font-weight: 500;
+  }
+  .talk__summary {
+    color: var(--text-muted);
+    flex: 1;
+  }
+  .talk__links {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 0.5rem;
+    color: var(--text);
+  }
+  .talk__links a:hover {
+    color: var(--accent);
+  }
+  .talk__soon {
+    color: var(--text-faint);
+  }
+</style>

@@ -1,0 +1,50 @@
+/*
+ * Design tokens — enterprise dark, cloud-security consulting.
+ * Navy/slate canvas, sky-blue accent, professional and trustworthy.
+ * Swap --accent to re-skin the whole site.
+ */
+:root {
+  /* Surfaces */
+  --bg: #0d1117;
+  --bg-2: #0f172a; /* deep slate-navy — used for full-width bands */
+  --surface: #161b22;
+  --surface-2: #1e293b;
+  --hairline: #232b36;
+  --hairline-strong: #313c4b;
+
+  /* Text */
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-faint: #64748b;
+
+  /* Accent (sky blue) */
+  --accent: #38bdf8;
+  --accent-2: #22d3ee;
+  --accent-dim: #0ea5e9;
+  --accent-contrast: #04121f;
+  --accent-glow: rgba(56, 189, 248, 0.16);
+
+  /* Typography */
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* Scale */
+  --step--1: clamp(0.78rem, 0.75rem + 0.15vw, 0.86rem);
+  --step-0: clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
+  --step-1: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+  --step-2: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+  --step-3: clamp(2rem, 1.6rem + 2vw, 3rem);
+  --step-4: clamp(2.6rem, 1.9rem + 3.5vw, 4.75rem);
+
+  /* Spacing / layout */
+  --space-section: clamp(4rem, 3rem + 6vw, 7.5rem);
+  --max-width: 74rem;
+  --gutter: clamp(1.25rem, 0.75rem + 3vw, 3rem);
+  --radius: 6px;
+  --radius-lg: 12px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 0.5s;
+}

@@ -1,0 +1,49 @@
+---
+import { CONTACT } from '../lib/site';
+---
+
+<section class="cta-band" aria-labelledby="cta-title">
+  <div class="wrap cta-band__inner">
+    <div>
+      <h2 id="cta-title" class="cta-band__title">
+        Let's secure what you're building.
+      </h2>
+      <p class="cta-band__lede">
+        Book a free 30-minute intro call and leave with a clear next step.
+      </p>
+    </div>
+    <a class="btn btn--primary cta-band__btn" href={CONTACT.booking} target="_blank" rel="noopener">
+      Book a free intro call
+    </a>
+  </div>
+</section>
+
+<style>
+  .cta-band {
+    background:
+      radial-gradient(80% 140% at 100% 0%, var(--accent-glow), transparent 60%),
+      var(--bg-2);
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .cta-band__inner {
+    padding-block: clamp(3rem, 2rem + 5vw, 5rem);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cta-band__title {
+    font-size: var(--step-3);
+    max-width: 20ch;
+  }
+  .cta-band__lede {
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+    max-width: 44ch;
+  }
+  .cta-band__btn {
+    flex: 0 0 auto;
+  }
+</style>

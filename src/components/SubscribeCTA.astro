@@ -1,0 +1,161 @@
+---
+import type { Post } from '../lib/posts';
+import { SOCIAL } from '../lib/site';
+
+interface Props {
+  /** Recent posts (Medium + LinkedIn), newest first. */
+  posts: Post[];
+}
+const { posts } = Astro.props;
+
+const channels = [
+  { label: 'LinkedIn', desc: 'Posts & updates', href: SOCIAL.linkedin },
+  { label: 'X', desc: 'Quick takes', href: SOCIAL.x },
+  { label: 'Medium', desc: 'Long-form writing', href: SOCIAL.medium },
+  { label: 'RSS', desc: 'Raw feed', href: SOCIAL.rss },
+];
+---
+
+<div class="subscribe">
+  <div class="subscribe__pitch">
+    <h2 class="subscribe__title">Follow my latest work.</h2>
+    <p class="subscribe__lede">
+      New writing and cloud-security notes. Pick your channel.
+    </p>
+    <a class="subscribe__primary" href={SOCIAL.newsletter} target="_blank" rel="noopener">
+      → Subscribe on LinkedIn
+    </a>
+  </div>
+
+  <ul class="subscribe__channels">
+    {channels.map((c) => (
+      <li>
+        <a href={c.href} target="_blank" rel="noopener">
+          <span class="subscribe__ch-label">{c.label}</span>
+          <span class="subscribe__ch-desc">{c.desc}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <div class="subscribe__latest">
+    <p class="subscribe__latest-label">Latest posts</p>
+    <ul class="subscribe__feed">
+      {posts.map((p) => (
+        <li>
+          <a href={p.url} target="_blank" rel="noopener">
+            <span class="subscribe__feed-source" data-source={p.source}>{p.source}</span>
+            {p.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<style>
+  .subscribe {
+    display: grid;
+    gap: 3rem;
+  }
+  .subscribe__title {
+    font-size: var(--step-3);
+    max-width: 18ch;
+  }
+  .subscribe__lede {
+    color: var(--text-muted);
+    margin-top: 1rem;
+    max-width: 42ch;
+  }
+  .subscribe__primary {
+    display: inline-block;
+    margin-top: 1.75rem;
+    padding: 0.8rem 1.3rem;
+    background: var(--accent);
+    color: var(--accent-contrast);
+    border-radius: var(--radius);
+    font-weight: 600;
+    transition: background 0.2s var(--ease);
+  }
+  .subscribe__primary:hover {
+    background: var(--accent-2);
+  }
+  .subscribe__channels {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--hairline);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .subscribe__channels a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 1.4rem;
+    background: var(--surface);
+    height: 100%;
+    transition: background 0.2s var(--ease);
+  }
+  .subscribe__channels a:hover {
+    background: var(--surface-2);
+  }
+  .subscribe__ch-label {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .subscribe__ch-desc {
+    color: var(--text-muted);
+    font-size: var(--step-0);
+  }
+  .subscribe__latest-label {
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    margin-bottom: 1rem;
+  }
+  .subscribe__feed {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .subscribe__feed li {
+    border-top: 1px solid var(--hairline);
+  }
+  .subscribe__feed a {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.9rem 0;
+    color: var(--text-muted);
+    transition: color 0.2s var(--ease);
+  }
+  .subscribe__feed a:hover {
+    color: var(--accent);
+  }
+  .subscribe__feed-source {
+    color: var(--accent-contrast);
+    background: var(--accent);
+    padding: 0.05rem 0.4rem;
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    flex: 0 0 auto;
+  }
+  .subscribe__feed-source[data-source='LinkedIn'] {
+    background: var(--accent-2);
+  }
+  @media (min-width: 860px) {
+    .subscribe {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+    .subscribe__pitch {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

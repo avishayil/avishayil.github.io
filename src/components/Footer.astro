@@ -1,0 +1,71 @@
+---
+import { SITE, SOCIAL } from '../lib/site';
+const year = 2026; // build-time constant; bump on release
+const links = [
+  { label: 'GitHub', href: SOCIAL.github },
+  { label: 'LinkedIn', href: SOCIAL.linkedin },
+  { label: 'Medium', href: SOCIAL.medium },
+  { label: 'X', href: SOCIAL.x },
+  { label: 'RSS', href: SOCIAL.rss },
+];
+---
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <div>
+      <div class="footer__name">{SITE.name}</div>
+      <p class="footer__tag mono">{SITE.tagline}</p>
+    </div>
+    <nav class="footer__links mono" aria-label="Social and resources">
+      {links.map((l) => (
+        <a href={l.href} target="_blank" rel="noopener">{l.label}</a>
+      ))}
+    </nav>
+  </div>
+  <div class="wrap footer__base mono">
+    <span>© {year} {SITE.name}</span>
+    <span>{SITE.domain}</span>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--hairline);
+    padding-block: 3.5rem 2rem;
+  }
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .footer__name {
+    font-weight: 600;
+    font-size: var(--step-1);
+  }
+  .footer__tag {
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+  }
+  .footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.1rem;
+    color: var(--text-muted);
+  }
+  .footer__links a {
+    transition: color 0.2s var(--ease);
+  }
+  .footer__links a:hover {
+    color: var(--accent);
+  }
+  .footer__base {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-faint);
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--hairline);
+  }
+</style>

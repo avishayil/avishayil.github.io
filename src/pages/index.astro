@@ -1,0 +1,205 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import RepoCard from '../components/RepoCard.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import TalkCard from '../components/TalkCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import SubscribeCTA from '../components/SubscribeCTA.astro';
+import { getFeaturedRepos } from '../lib/github';
+import { getPosts } from '../lib/posts';
+import { SITE } from '../lib/site';
+
+const repos = await getFeaturedRepos();
+const posts = await getPosts(6);
+const talks = (await getCollection('talks')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const services = (await getCollection('services')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const homeRepos = repos.slice(0, 6);
+const totalStars = repos.reduce((sum, r) => sum + r.stars, 0);
+const stats = [
+  { value: '10+', label: 'Years in security' },
+  { value: `${repos.length}+`, label: 'Open-source security tools' },
+  { value: totalStars.toLocaleString(), label: 'GitHub stars' },
+];
+---
+
+<Base>
+  <Hero stats={stats} />
+
+  <!-- Services -->
+  <section id="services" class="section">
+    <div class="wrap">
+      <SectionLabel
+        index="01"
+        label="Services"
+        title="How I Can Help"
+        lede="AI-security engagements that keep your teams moving and your AI safe."
+      />
+      <div class="grid grid--cards reveal">
+        {services.map((service) => (
+          <ServiceCard
+            title={service.data.title}
+            summary={service.data.summary}
+            points={service.data.points}
+            featured={service.data.featured}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- About / Why me -->
+  <section id="about" class="section">
+    <div class="wrap">
+      <SectionLabel index="02" label="About" title="Who I Am" />
+      <div class="about reveal">
+        <p class="about__lead">
+          I'm {SITE.name}, a Senior Principal Security Architect at Palo Alto
+          Networks, where I've spent the past eight years. I work on securing
+          AI: helping teams adopt it safely and defend the AI systems they ship,
+          while using AI to make security itself faster. I hold a patent for
+          securing the development lifecycle with AI, and I spend my days where
+          new AI risk meets real-world engineering.
+        </p>
+        <ul class="about__focus">
+          <li>AI Security Governance</li>
+          <li>Securing AI & LLM Workloads</li>
+          <li>AI-Accelerated DevSecOps</li>
+          <li>Cloud & AWS Security</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work / Open Source -->
+  <section id="open-source" class="section">
+    <div class="wrap">
+      <SectionLabel
+        index="03"
+        label="Work"
+        title="Security & AI Tooling, in the Open"
+        lede="Projects and vulnerable-by-design labs, ordered by stars and pulled live from GitHub."
+      />
+      <div class="grid grid--cards reveal">
+        {homeRepos.map((repo) => <RepoCard repo={repo} />)}
+      </div>
+      <a class="more" href="/open-source">All repositories →</a>
+    </div>
+  </section>
+
+  <!-- Posts & Notes -->
+  <section id="posts" class="section">
+    <div class="wrap">
+      <SectionLabel
+        index="04"
+        label="Posts & Notes"
+        title="Posts & Notes"
+        lede="Short takes from LinkedIn and longer pieces from the blog, in one place."
+      />
+      <div class="reveal">
+        {posts.map((post) => <ArticleCard post={post} />)}
+      </div>
+      <a class="more" href="/posts">All posts →</a>
+    </div>
+  </section>
+
+  <!-- Speaking -->
+  <section id="speaking" class="section">
+    <div class="wrap">
+      <SectionLabel index="05" label="Speaking" title="Talks & Workshops" />
+      <div class="grid grid--cards reveal">
+        {talks.map((talk) => (
+          <TalkCard
+            title={talk.data.title}
+            event={talk.data.event}
+            date={talk.data.date}
+            videoUrl={talk.data.videoUrl}
+            slidesUrl={talk.data.slidesUrl}
+            summary={talk.data.summary}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing CTA -->
+  <CtaBand />
+
+  <!-- Subscribe (secondary) -->
+  <section id="subscribe" class="section">
+    <div class="wrap reveal">
+      <SectionLabel index="06" label="Subscribe" title="Stay in the Loop" />
+      <SubscribeCTA posts={posts.slice(0, 5)} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .about__lead {
+    font-size: var(--step-1);
+    line-height: 1.55;
+    max-width: 52ch;
+    color: var(--text);
+  }
+  .about__focus {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+  .about__focus li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text-muted);
+    padding: 0.9rem 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius);
+  }
+  .about__focus li::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--accent);
+    flex: 0 0 auto;
+  }
+  @media (min-width: 900px) {
+    .about {
+      grid-template-columns: 1.1fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .grid {
+    display: grid;
+    gap: 1rem;
+  }
+  .grid--cards {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  }
+  .more {
+    display: inline-block;
+    margin-top: 2.5rem;
+    color: var(--accent);
+    font-weight: 500;
+    transition: color 0.2s var(--ease);
+  }
+  .more:hover {
+    color: var(--accent-2);
+  }
+</style>
