@@ -20,7 +20,11 @@ const displayDate = post.date
   </div>
   <h3 class="article__title">{post.title}</h3>
   <span class="article__more mono" aria-hidden="true">read →</span>
-  {post.content && <p class="article__content">{post.content}</p>}
+  {post.excerpt && (
+    <p class="article__content">
+      {post.excerpt} <span class="article__readmore mono">read more →</span>
+    </p>
+  )}
 </a>
 
 <style>
@@ -65,7 +69,10 @@ const displayDate = post.date
     color: var(--text-muted);
     font-size: var(--step-0);
     line-height: 1.6;
-    white-space: pre-line;
+  }
+  .article__readmore {
+    color: var(--accent);
+    white-space: nowrap;
   }
   .article:hover .article__title {
     color: var(--accent);
