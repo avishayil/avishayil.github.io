@@ -20,6 +20,12 @@ export interface Post {
  */
 const LINKEDIN_POSTS: Post[] = [
   {
+    title: 'AttestArc: open-sourcing a supply-chain security skill for AI coding agents',
+    url: 'https://www.linkedin.com/posts/avishaybar_appsec-devsecops-cybersecurity-activity-7497354365901479936-PMnb',
+    date: '2026-08-23T00:00:00.000Z',
+    source: 'LinkedIn',
+  },
+  {
     title: 'Finishing the AI Security Engineer Foundations track',
     url: 'https://www.linkedin.com/posts/avishaybar_ai-security-engineer-foundations-avishaybar-activity-7495383711803408384-xrrV',
     date: '2026-08-18T00:00:00.000Z',
@@ -75,3 +81,4 @@ export async function getPosts(limit?: number): Promise<Post[]> {
   const combined = [...LINKEDIN_POSTS, ...medium].sort(byDateDesc);
   return typeof limit === 'number' ? combined.slice(0, limit) : combined;
 }
+
