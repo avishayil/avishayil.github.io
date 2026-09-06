@@ -31,7 +31,6 @@ export const FEATURED_REPOS: readonly string[] = [
   'cdk-bucket-takeover-scanner',
   'secure_ec2',
   'rag-search-homeassistant',
-  'jupyter-ecs-service',
   'react-native-restart',
 ];
 
@@ -41,6 +40,26 @@ export const FEATURED_REPOS: readonly string[] = [
  * even before it accumulates stars.
  */
 const PINNED_REPOS: readonly string[] = ['attestarc-skill', 'dvah'];
+
+/**
+ * Curated allowlist for the /open-source page: actively maintained,
+ * security-relevant, or genuinely popular repos. Anything else (stale toys,
+ * tests, personal infra) stays off the site.
+ */
+export const OPEN_SOURCE_REPOS: readonly string[] = [
+  'attestarc-skill',
+  'dvah',
+  'caponeme',
+  'cdk-goat',
+  'cdk-private-api-domain',
+  'cf-signer',
+  'cdk-bucket-takeover-scanner',
+  'cloud-custodian-example',
+  'secure_ec2',
+  'rag-search-homeassistant',
+  'react-native-restart',
+  'react-native-user-avatar',
+];
 
 /** Repos published to npm → their package name (for monthly-download counts). */
 const REPO_NPM: Record<string, string> = {
@@ -58,8 +77,10 @@ const SNAPSHOT: Repo[] = [
   { name: 'attestarc-skill', description: 'Installable agent skill that turns your coding agent (Claude Code, Cursor) into a software supply-chain security engineer for your repo and CI/CD.', url: `https://github.com/${GITHUB_USER}/attestarc-skill`, language: 'Python', stars: 0, topics: ['supply-chain-security', 'agent-skill', 'ci-cd-security'] },
   { name: 'dvah', description: 'Damn Vulnerable Agent Harness: a patch-the-runtime security lab for AI-agent platforms.', url: `https://github.com/${GITHUB_USER}/dvah`, language: 'Python', stars: 0, topics: ['agent-security', 'ai-agents', 'llm'] },
   { name: 'react-native-restart', description: 'React Native package with one purpose: to restart your app.', url: `https://github.com/${GITHUB_USER}/react-native-restart`, language: 'JavaScript', stars: 991, topics: ['react-native'] },
+  { name: 'rag-search-homeassistant', description: 'Home Assistant component for querying events history for entities with LLM.', url: `https://github.com/${GITHUB_USER}/rag-search-homeassistant`, language: 'Python', stars: 6, topics: ['home-assistant', 'llm'] },
+  { name: 'cloud-custodian-example', description: 'Example Cloud Custodian policies for cloud-security governance.', url: `https://github.com/${GITHUB_USER}/cloud-custodian-example`, language: 'Python', stars: 6, topics: ['aws', 'cloud-custodian', 'security'] },
+  { name: 'cdk-private-api-domain', description: 'CDK construct library that provisions a private Amazon API Gateway with a custom domain name, accessible only through VPC endpoints.', url: `https://github.com/${GITHUB_USER}/cdk-private-api-domain`, language: 'TypeScript', stars: 1, topics: ['aws', 'cdk', 'api-gateway'] },
   { name: 'react-native-user-avatar', description: 'Avatar component for React Native.', url: `https://github.com/${GITHUB_USER}/react-native-user-avatar`, language: 'TypeScript', stars: 201, topics: ['react-native'] },
-  { name: 'jupyter-ecs-service', description: 'Serverless JupyterHub with AWS Fargate and CDK.', url: `https://github.com/${GITHUB_USER}/jupyter-ecs-service`, language: 'Python', stars: 24, topics: ['aws', 'fargate', 'jupyter'] },
 ];
 
 interface GitHubApiRepo {
@@ -173,8 +194,11 @@ export async function getFeaturedRepos(): Promise<Repo[]> {
  */
 export async function getAllRepos(): Promise<Repo[]> {
   try {
-    const repos = await fetchRepos();
-    if (repos.length === 0) return [...SNAPSHOT].sort(byPinnedThenStars);
+    const allowed = new Set(OPEN_SOURCE_REPOS);
+    const repos = (await fetchRepos()).filter((r) => allowed.has(r.name));
+    if (repos.length === 0) {
+      return [...SNAPSHOT].filter((r) => allowed.has(r.name)).sort(byPinnedThenStars);
+    }
     return attachDownloads([...repos].sort(byStarsDesc));
   } catch (err) {
     console.warn(
