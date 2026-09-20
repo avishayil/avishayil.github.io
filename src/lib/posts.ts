@@ -22,6 +22,13 @@ export interface Post {
  */
 const LINKEDIN_POSTS: Post[] = [
   {
+    title: "AI coding tools, de-identified telemetry, and the new IP trust boundary",
+    url: "https://www.linkedin.com/posts/avishaybar_%D7%94%D7%94%D7%9B%D7%A8%D7%96%D7%94-%D7%94%D7%90%D7%97%D7%A8%D7%95%D7%A0%D7%94-%D7%A9%D7%9C-openai-%D7%A2%D7%9C-%D7%A4%D7%AA%D7%A8%D7%95%D7%9F-%D7%91%D7%A2%D7%99%D7%99%D7%AA-navier-stokes-activity-7503444909723607042-tZum",
+    date: '2026-09-09T13:31:13.743Z',
+    source: 'LinkedIn',
+    excerpt: "ההכרזה האחרונה של OpenAI על פתרון בעיית Navier-Stokes בעזרת צבא של אייג׳נטים הגיעה יחד עם לא מעט סימני שאלה בנוגע ל-IP שלנו בעידן ה-AI. ההגנה הזו חושפת בעיה באופן שבו אנחנו בונים threat models עבור כלי פיתוח מבוססי AI. ה-Trust Boundary זז.",
+  },
+  {
     title: "When the IDE itself opens a reverse shell: Claude Code's /rc and agent permission models",
     url: "https://www.linkedin.com/feed/update/urn:li:activity:7500492822974857216",
     date: '2026-09-01T00:00:00.000Z',
