@@ -1,4 +1,5 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 
 /** Speaking — one .md per talk. Body (optional) is extra notes. */
@@ -8,8 +9,8 @@ const talks = defineCollection({
     title: z.string(),
     event: z.string(),
     date: z.coerce.date(),
-    videoUrl: z.string().url().optional(),
-    slidesUrl: z.string().url().optional(),
+    videoUrl: z.url().optional(),
+    slidesUrl: z.url().optional(),
     summary: z.string(),
     order: z.number().default(0),
   }),
